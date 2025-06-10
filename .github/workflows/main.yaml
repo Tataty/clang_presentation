@@ -1,0 +1,39 @@
+name: CI Checks # Назва всього пайплайну
+
+on: [push, pull_request] # Запускати на кожен push та pull request
+
+jobs:
+  build_and_test: # Назва групи завдань
+    runs-on: ubuntu-latest # Використовувати віртуальну машину з Ubuntu
+
+    steps:
+      # 1. Крок: Отримання коду з репозиторію
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Крок: Перевірка форматування коду
+      - name: Check code format
+        run: |
+          # Встановлюємо останню версію clang-format
+          sudo apt-get update
+          sudo apt-get install -y clang-format
+          # Знаходимо всі файли C++ і запускаємо перевірку
+          find . -regex '.*\.\(cpp\|hpp\|c\|h\)' -exec clang-format --dry-run -Werror {} +
+
+      # 3. Крок: Збірка проєкту (Build)
+      - name: Build project
+        run: |
+          # Тут будуть ваші команди для збірки
+          # Наприклад, для CMake:
+          mkdir build
+          cd build
+          cmake ..
+          make
+
+      # 4. Крок: Запуск тестів (Test)
+      - name: Run tests
+        run: |
+          # Тут будуть ваші команди для запуску тестів
+          # Наприклад:
+          cd build
+          ./your_test_executable
