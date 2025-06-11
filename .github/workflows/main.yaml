@@ -29,11 +29,3 @@ jobs:
           cd build
           cmake ..
           make
-
-      # 4. Крок: Запуск тестів (Test)
-      - name: Run tests
-        run: |
-          # Тут будуть ваші команди для запуску тестів
-          # Наприклад:
-          cd build
-          ./your_test_executable
